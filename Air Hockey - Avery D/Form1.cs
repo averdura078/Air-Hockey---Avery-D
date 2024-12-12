@@ -27,8 +27,8 @@ namespace Air_Hockey___Avery_D
         int playerXSpeed = 4;
         int playerYSpeed = 4;
 
-        int puckXSpeed = -3;
-        int puckYSpeed = 3;
+        int puckXSpeed = 0;
+        int puckYSpeed = 0;
 
         //player 1
         bool wPressed = false;
@@ -48,6 +48,8 @@ namespace Air_Hockey___Avery_D
         SolidBrush blackBrush = new SolidBrush(Color.Black);
 
         SolidBrush greyBrush = new SolidBrush(Color.Gray);
+
+        Pen redPen = new Pen(Color.Red, 4);
 
         public Form1()
         {
@@ -110,59 +112,82 @@ namespace Air_Hockey___Avery_D
             //check if ball hit player 1, and which side
             if (player1.IntersectsWith(puck))
             {
-                //create rectangles on sides of player
-                Rectangle topRect = new Rectangle(player1.X + 3, player1.Y, 27, 5);
-                Rectangle bottomRect = new Rectangle(player1.X + 3, player1.Y + 25, 27, 5);
-                Rectangle leftRect = new Rectangle(player1.X, player1.Y + 3, 5, 27);
-                Rectangle rightRect = new Rectangle(player1.X + 25, player1.Y + 3, 5, 27);
+                if (puckXSpeed == 0)
+                {
+                    puckXSpeed = 8;
+                    puckYSpeed = 8;
+                }
+                else
+                {
+                    //create rectangles on sides of player
+                    Rectangle topRect = new Rectangle(player1.X + 4, player1.Y, 22, 3);
+                    Rectangle bottomRect = new Rectangle(player1.X + 4, player1.Y + 27, 22, 3);
+                    Rectangle leftRect = new Rectangle(player1.X, player1.Y + 4, 3, 22);
+                    Rectangle rightRect = new Rectangle(player1.X + 27, player1.Y + 25, 3, 22);
 
-                //check which rectangle the puck hit
-                if (topRect.IntersectsWith(puck))
-                {
-                    puckYSpeed *= -1;
+                    //check which rectangle the puck hit
+                    if (topRect.IntersectsWith(puck))
+                    {
+                        puckYSpeed *= -1;
+                        puck.Y = player1.Y - puck.Height;
+                    }
+                    else if (bottomRect.IntersectsWith(puck))
+                    {
+                        puckYSpeed *= -1;
+                        puck.Y = player1.Y + player1.Height;
+                    }
+                    else if (leftRect.IntersectsWith(puck))
+                    {
+                        puckXSpeed *= -1;
+                        puck.X = player1.X - puck.Width;
+                    }
+                    else if (rightRect.IntersectsWith(puck))
+                    {
+                        puckXSpeed *= -1;
+                        puck.X = player1.X + player1.Width;
+                    }
                 }
-                else if (bottomRect.IntersectsWith(puck))
-                {
-                    puckYSpeed *= -1;
-                }
-                else if (leftRect.IntersectsWith(puck))
-                {
-                    puckXSpeed *= -1;
-                }
-                else if (rightRect.IntersectsWith(puck))
-                {
-                    puckXSpeed *= -1;
-                }
+
+                //repeat for player 2
             }
-
-            //repeat for player 2
             if (player2.IntersectsWith(puck))
             {
-                //create rectangles on sides of player
-                Rectangle topRect = new Rectangle(player2.X + 3, player2.Y, 27, 5);
-                Rectangle bottomRect = new Rectangle(player2.X + 3, player2.Y + 25, 27, 5);
-                Rectangle leftRect = new Rectangle(player2.X, player2.Y + 3, 5, 27);
-                Rectangle rightRect = new Rectangle(player2.X + 25, player2.Y + 3, 5, 27);
+                if (puckXSpeed == 0)
+                {
+                    puckYSpeed = -8;
+                    puckXSpeed = -8;
+                }
+                else
+                {
+                    //create rectangles on sides of player
+                    Rectangle topRect = new Rectangle(player2.X + 4, player2.Y, 22, 3);
+                    Rectangle bottomRect = new Rectangle(player2.X + 4, player2.Y + 27, 22, 3);
+                    Rectangle leftRect = new Rectangle(player2.X, player2.Y + 4, 3, 22);
+                    Rectangle rightRect = new Rectangle(player2.X + 27, player2.Y + 25, 3, 22);
 
-                //check which rectangle the puck hit
-                if (topRect.IntersectsWith(puck))
-                {
-                    puckYSpeed *= -1;
-                }
-                else if (bottomRect.IntersectsWith(puck))
-                {
-                    puckYSpeed *= -1;
-                }
-                else if (leftRect.IntersectsWith(puck))
-                {
-                    puckXSpeed *= -1;
-                }
-                else if (rightRect.IntersectsWith(puck))
-                {
-                    puckXSpeed *= -1;
+                    //check which rectangle the puck hit
+                    if (topRect.IntersectsWith(puck))
+                    {
+                        puckYSpeed *= -1;
+                        puck.Y = player2.Y - puck.Height;
+                    }
+                    else if (bottomRect.IntersectsWith(puck))
+                    {
+                        puckYSpeed *= -1;
+                        puck.Y = player2.Y + player2.Height;
+                    }
+                    else if (leftRect.IntersectsWith(puck))
+                    {
+                        puckXSpeed *= -1;
+                        puck.X = player2.X - puck.Width;
+                    }
+                    else if (rightRect.IntersectsWith(puck))
+                    {
+                        puckXSpeed *= -1;
+                        puck.X = player2.X + player2.Width;
+                    }
                 }
             }
-
 
             //check if ball hit goal 1 or goal 2, if so, add point to appropriate player
             if (net1.IntersectsWith(puck))
@@ -183,10 +208,7 @@ namespace Air_Hockey___Avery_D
             {
                 gameTimer.Stop();
 
-                //player1.X = 10;
-                //player1.Y = 160;
-                //player2.X = 542;
-                //player2.X = 160;
+
 
                 //display game over and display winner
             }
@@ -197,6 +219,8 @@ namespace Air_Hockey___Avery_D
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.DrawLine(redPen, 290, 0, 290, 400);
+
             e.Graphics.FillRectangle(greyBrush, net1);
             e.Graphics.FillRectangle(greyBrush, net2);
 
