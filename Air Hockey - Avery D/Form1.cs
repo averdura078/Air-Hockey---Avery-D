@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Air_Hockey___Avery_D
 {
@@ -14,10 +15,12 @@ namespace Air_Hockey___Avery_D
     {
         //global variables
 
-        Rectangle player1 = new Rectangle(10, 160, 35, 35);
-        Rectangle player2 = new Rectangle(542, 160, 35, 35);
-        Rectangle puck = new Rectangle(280, 163, 30, 30);
+        //moving rectangles
+        Rectangle player1 = new Rectangle(10, 165, 35, 35);
+        Rectangle player2 = new Rectangle(542, 165, 35, 35);
+        Rectangle puck = new Rectangle(275, 168, 30, 30);
 
+        //static rectangles
         Rectangle net1 = new Rectangle(-10, 95, 50, 180);
         Rectangle net2 = new Rectangle(547, 95, 50, 180);
 
@@ -30,26 +33,34 @@ namespace Air_Hockey___Avery_D
         int puckXSpeed = 0;
         int puckYSpeed = 0;
 
-        //player 1
+        //player 1 (blue) buttons
         bool wPressed = false;
         bool sPressed = false;
         bool aPressed = false;
         bool dPressed = false;
 
-        //player 2
+        //player 2 (red) buttons
         bool upArrowPressed = false;
         bool downArrowPressed = false;
         bool leftArrowPressed = false;
         bool rightArrowPressed = false;
 
+        //player colours
         SolidBrush blueBrush = new SolidBrush(Color.DodgerBlue);
         SolidBrush redBrush = new SolidBrush(Color.Red);
 
+        //puck colour
         SolidBrush blackBrush = new SolidBrush(Color.Black);
 
+        //nets colour
         SolidBrush greyBrush = new SolidBrush(Color.Gray);
 
-        Pen redPen = new Pen(Color.Red, 4);
+        //decoration colour
+        Pen redPen = new Pen(Color.Salmon, 4);
+
+        //sound players
+        SoundPlayer collision = new SoundPlayer(Properties.Resources.intersection);
+        SoundPlayer gameOver = new SoundPlayer(Properties.Resources.fanfare);
 
         public Form1()
         {
@@ -109,9 +120,12 @@ namespace Air_Hockey___Avery_D
                 puckXSpeed *= -1;
             }
 
-            //check if ball hit player 1, and which side
+            //check if puck hit player 1, and which side
             if (player1.IntersectsWith(puck))
             {
+                //play sound
+                collision.Play();
+
                 if (puckXSpeed == 0)
                 {
                     puckXSpeed = 8;
@@ -147,11 +161,14 @@ namespace Air_Hockey___Avery_D
                         puck.X = player1.X + player1.Width;
                     }
                 }
-
-                //repeat for player 2
             }
+
+            //check if puck hit player 2, and which side
             if (player2.IntersectsWith(puck))
             {
+                //play sound
+                collision.Play();
+
                 if (puckXSpeed == 0)
                 {
                     puckYSpeed = -8;
@@ -189,47 +206,94 @@ namespace Air_Hockey___Avery_D
                 }
             }
 
-            //check if ball hit goal 1 or goal 2, if so, add point to appropriate player
+            //check if ball hit goal 1 or goal 2, if so, add point to appropriate player and reset
             if (net1.IntersectsWith(puck))
             {
                 player2Score++;
-                puck.X = 280;
-                puck.Y = 163;
+
+                player1.X = 10;
+                player1.Y = 165;
+                player2.X = 542;
+                player2.Y = 165;
+                puck.X = 275;
+                puck.Y = 168;
+
+                puckXSpeed = 0;
+                puckYSpeed = 0;
             }
             if (net2.IntersectsWith(puck))
             {
                 player1Score++;
-                puck.X = 280;
-                puck.Y = 163;
+
+                player1.X = 10;
+                player1.Y = 165;
+                player2.X = 542;
+                player2.Y = 165;
+                puck.X = 275;
+                puck.Y = 168;
+
+                puckXSpeed = 0;
+                puckYSpeed = 0;
             }
 
             //check if either player reached 3 points (game over)
             if (player1Score >= 3 || player2Score >= 3)
             {
+                //stop loop
                 gameTimer.Stop();
 
+                //reset positions
+                player1.X = 10;
+                player1.Y = 165;
+                player2.X = 542;
+                player2.Y = 165;
+                puck.X = 275;
+                puck.Y = 168;
 
+                //display winner
+                if (player1Score >= 3)
+                {
+                    winLabel.ForeColor = Color.DodgerBlue;
+                    winLabel.Text = $"GAME OVER! Player 1 wins {player1Score}-{player2Score}";
+                }
+                else if (player2Score >= 3)
+                {
+                    winLabel.ForeColor=Color.Red;
+                    winLabel.Text = $"GAME OVER! Player 2 wins {player2Score}-{player1Score}";
+                }
 
-                //display game over and display winner
+                //show button
+                resetButton.Enabled = true;
+                resetButton.Visible = true;
+
+                //play sound
+                gameOver.Play();
+
             }
 
-            //paint screen
+            //paint screen after all above conditions are checked
             Refresh();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            //middle line and circle
             e.Graphics.DrawLine(redPen, 290, 0, 290, 400);
+            e.Graphics.DrawEllipse(redPen, 230, 125, 120, 120);
 
+            //nets
             e.Graphics.FillRectangle(greyBrush, net1);
             e.Graphics.FillRectangle(greyBrush, net2);
 
+            //scores
             p1ScoreLabel.Text = $"{player1Score}";
             p2ScoreLabel.Text = $"{player2Score}";
 
+            //players
             e.Graphics.FillRectangle(blueBrush, player1);
             e.Graphics.FillRectangle(redBrush, player2);
 
+            //puck
             e.Graphics.FillEllipse(blackBrush, puck);
         }
 
@@ -295,5 +359,22 @@ namespace Air_Hockey___Avery_D
             }
         }
 
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            //reset everything
+            resetButton.Enabled = false;
+            resetButton.Visible = false;
+
+            winLabel.Text = "";
+
+            player1Score = 0;
+            player2Score = 0;
+
+            puckXSpeed = 0;
+            puckYSpeed = 0;
+
+            //restart game
+            gameTimer.Start();
+        }
     }
 }
