@@ -73,7 +73,6 @@ namespace Air_Hockey___Avery_D
         SoundPlayer collision = new SoundPlayer(Properties.Resources.intersection);
         SoundPlayer gameOver = new SoundPlayer(Properties.Resources.fanfare);
 
-        int counter = 0;
         Random random = new Random();
 
         public Form1()
@@ -409,8 +408,6 @@ namespace Air_Hockey___Avery_D
 
             puckXSpeed = 0;
             puckYSpeed = 0;
-
-            counter = 0;
 
             //restart game
             gameTimer.Start();
