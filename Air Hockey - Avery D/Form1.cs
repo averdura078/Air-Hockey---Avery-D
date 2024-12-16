@@ -258,7 +258,7 @@ namespace Air_Hockey___Avery_D
                 }
                 else if (player2Score >= 3)
                 {
-                    winLabel.ForeColor=Color.Red;
+                    winLabel.ForeColor = Color.Red;
                     winLabel.Text = $"GAME OVER! Player 2 wins {player2Score}-{player1Score}";
                 }
 
@@ -268,7 +268,6 @@ namespace Air_Hockey___Avery_D
 
                 //play sound
                 gameOver.Play();
-
             }
 
             //paint screen after all above conditions are checked
