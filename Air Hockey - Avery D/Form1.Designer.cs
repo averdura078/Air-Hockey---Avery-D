@@ -34,6 +34,8 @@
             this.p2ScoreLabel = new System.Windows.Forms.Label();
             this.winLabel = new System.Windows.Forms.Label();
             this.resetButton = new System.Windows.Forms.Button();
+            this.blub = new System.Windows.Forms.Timer(this.components);
+            this.speedBoost = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // gameTimer
@@ -95,6 +97,17 @@
             this.resetButton.Visible = false;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
+            // blub
+            // 
+            this.blub.Enabled = true;
+            this.blub.Interval = 8000;
+            this.blub.Tick += new System.EventHandler(this.blub_Tick);
+            // 
+            // speedBoost
+            // 
+            this.speedBoost.Interval = 4000;
+            this.speedBoost.Tick += new System.EventHandler(this.speedBoost_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -124,6 +137,8 @@
         private System.Windows.Forms.Label p2ScoreLabel;
         private System.Windows.Forms.Label winLabel;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.Timer blub;
+        private System.Windows.Forms.Timer speedBoost;
     }
 }
 

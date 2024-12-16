@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 
+//an air hockey game
+//Avery Durand
+//ICS3U
+//Mr. T
+
 namespace Air_Hockey___Avery_D
 {
     public partial class Form1 : Form
@@ -19,6 +24,7 @@ namespace Air_Hockey___Avery_D
         Rectangle player1 = new Rectangle(10, 165, 35, 35);
         Rectangle player2 = new Rectangle(542, 165, 35, 35);
         Rectangle puck = new Rectangle(275, 168, 30, 30);
+        Rectangle yellowBlob = new Rectangle(-50, -50, 20, 20);
 
         //static rectangles
         Rectangle net1 = new Rectangle(-10, 95, 50, 180);
@@ -27,8 +33,10 @@ namespace Air_Hockey___Avery_D
         int player1Score = 0;
         int player2Score = 0;
 
-        int playerXSpeed = 4;
-        int playerYSpeed = 4;
+        int player1XSpeed = 4;
+        int player1YSpeed = 4;
+        int player2XSpeed = 4;
+        int player2YSpeed = 4;
 
         int puckXSpeed = 0;
         int puckYSpeed = 0;
@@ -55,12 +63,18 @@ namespace Air_Hockey___Avery_D
         //nets colour
         SolidBrush greyBrush = new SolidBrush(Color.Gray);
 
+        //yellow blob colour
+        SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
+
         //decoration colour
         Pen redPen = new Pen(Color.Salmon, 4);
 
         //sound players
         SoundPlayer collision = new SoundPlayer(Properties.Resources.intersection);
         SoundPlayer gameOver = new SoundPlayer(Properties.Resources.fanfare);
+
+        int counter = 0;
+        Random random = new Random();
 
         public Form1()
         {
@@ -76,37 +90,37 @@ namespace Air_Hockey___Avery_D
             //move player 1 
             if (wPressed == true && player1.Y > 0)
             {
-                player1.Y -= playerYSpeed;
+                player1.Y -= player1YSpeed;
             }
             if (sPressed == true && player1.Y < 330)
             {
-                player1.Y += playerYSpeed;
+                player1.Y += player1YSpeed;
             }
             if (aPressed == true && player1.X > 0)
             {
-                player1.X -= playerXSpeed;
+                player1.X -= player1XSpeed;
             }
             if (dPressed == true && player1.X < this.Width - 52)
             {
-                player1.X += playerXSpeed;
+                player1.X += player1XSpeed;
             }
 
             //move player 2
             if (upArrowPressed == true && player2.Y > 0)
             {
-                player2.Y -= playerYSpeed;
+                player2.Y -= player2YSpeed;
             }
             if (downArrowPressed == true && player2.Y < 330)
             {
-                player2.Y += playerYSpeed;
+                player2.Y += player2YSpeed;
             }
             if (leftArrowPressed == true && player2.X > 0)
             {
-                player2.X -= playerXSpeed;
+                player2.X -= player2XSpeed;
             }
             if (rightArrowPressed == true && player2.X < this.Width - 52)
             {
-                player2.X += playerXSpeed;
+                player2.X += player2XSpeed;
             }
 
             //check if ball hit top or bottom, change ball direction if true
@@ -270,6 +284,28 @@ namespace Air_Hockey___Avery_D
                 gameOver.Play();
             }
 
+            //check if player hit yellow blob and speed up player
+            if (player1.IntersectsWith(yellowBlob))
+            {
+                player1XSpeed += 2;
+                player1YSpeed += 2;
+
+                yellowBlob.X = -50;
+                yellowBlob.Y = -50;
+
+                speedBoost.Enabled = true;
+            }
+            if (player2.IntersectsWith(yellowBlob))
+            {
+                player2XSpeed += 2;
+                player2YSpeed += 2;
+
+                yellowBlob.X = -50;
+                yellowBlob.Y = -50;
+
+                speedBoost.Enabled = true;
+            }
+
             //paint screen after all above conditions are checked
             Refresh();
         }
@@ -294,6 +330,8 @@ namespace Air_Hockey___Avery_D
 
             //puck
             e.Graphics.FillEllipse(blackBrush, puck);
+
+            e.Graphics.FillEllipse(yellowBrush, yellowBlob);
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -372,8 +410,31 @@ namespace Air_Hockey___Avery_D
             puckXSpeed = 0;
             puckYSpeed = 0;
 
+            counter = 0;
+
             //restart game
             gameTimer.Start();
+        }
+
+        private void blub_Tick(object sender, EventArgs e)
+        {
+            //get random coordinates
+            int yR = random.Next(1, this.Height);
+            int xR = random.Next(1, this.Width);
+
+            //change yellow blob position
+            yellowBlob.Y = yR;
+            yellowBlob.X = xR;
+        }
+
+        private void speedBoost_Tick(object sender, EventArgs e)
+        {
+            speedBoost.Enabled = false;
+
+            player1XSpeed -= 2;
+            player1YSpeed -= 2;
+            player2XSpeed -= 2;
+            player2YSpeed -= 2;
         }
     }
 }
