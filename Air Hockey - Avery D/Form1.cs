@@ -419,6 +419,16 @@ namespace Air_Hockey___Avery_D
             player1Speed = 4;
             player2Speed = 4;
 
+            wPressed = false;
+            sPressed = false;
+            aPressed = false;
+            dPressed = false;
+
+            upArrowPressed = false;
+            downArrowPressed = false;
+            leftArrowPressed = false;
+            rightArrowPressed = false;
+
             //restart game
             gameTimer.Start();
         }
