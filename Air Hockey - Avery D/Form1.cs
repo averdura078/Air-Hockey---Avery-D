@@ -436,8 +436,8 @@ namespace Air_Hockey___Avery_D
         private void blub_Tick(object sender, EventArgs e)
         {
             //get random coordinates
-            int yR = random.Next(1, this.Height);
-            int xR = random.Next(1, this.Width);
+            int yR = random.Next(40, this.Height - 50);
+            int xR = random.Next(40, this.Width - 50);
 
             //change yellow blob position
             yellowBlob.Y = yR;
@@ -451,6 +451,7 @@ namespace Air_Hockey___Avery_D
             player1Speed = 4;
 
             speedBoost1.Enabled = false;
+            speedBoost1.Interval = 4000;
         }
 
         private void speedBoost2_Tick(object sender, EventArgs e)
@@ -459,7 +460,8 @@ namespace Air_Hockey___Avery_D
 
             player2Speed = 4;
 
-            speedBoost1.Enabled = false;
+            speedBoost2.Enabled = false;
+            speedBoost2.Interval = 4000;
         }
     }
 }

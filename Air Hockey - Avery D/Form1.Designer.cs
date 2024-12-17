@@ -107,6 +107,7 @@
             // speedBoost1
             // 
             this.speedBoost1.Interval = 4000;
+            this.speedBoost1.Tick += new System.EventHandler(this.speedBoost1_Tick);
             // 
             // speedBoost2
             // 
