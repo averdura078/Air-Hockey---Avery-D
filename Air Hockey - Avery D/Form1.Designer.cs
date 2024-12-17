@@ -35,7 +35,8 @@
             this.winLabel = new System.Windows.Forms.Label();
             this.resetButton = new System.Windows.Forms.Button();
             this.blub = new System.Windows.Forms.Timer(this.components);
-            this.speedBoost = new System.Windows.Forms.Timer(this.components);
+            this.speedBoost1 = new System.Windows.Forms.Timer(this.components);
+            this.speedBoost2 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // gameTimer
@@ -103,10 +104,14 @@
             this.blub.Interval = 8000;
             this.blub.Tick += new System.EventHandler(this.blub_Tick);
             // 
-            // speedBoost
+            // speedBoost1
             // 
-            this.speedBoost.Interval = 4000;
-            this.speedBoost.Tick += new System.EventHandler(this.speedBoost_Tick);
+            this.speedBoost1.Interval = 4000;
+            // 
+            // speedBoost2
+            // 
+            this.speedBoost2.Interval = 4000;
+            this.speedBoost2.Tick += new System.EventHandler(this.speedBoost2_Tick);
             // 
             // Form1
             // 
@@ -138,7 +143,8 @@
         private System.Windows.Forms.Label winLabel;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Timer blub;
-        private System.Windows.Forms.Timer speedBoost;
+        private System.Windows.Forms.Timer speedBoost1;
+        private System.Windows.Forms.Timer speedBoost2;
     }
 }
 

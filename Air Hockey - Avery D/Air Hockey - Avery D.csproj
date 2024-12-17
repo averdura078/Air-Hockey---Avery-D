@@ -86,5 +86,8 @@
   <ItemGroup>
     <None Include="Resources\Short_triumphal_fanfare-John_Stracke-815794903.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\super-mario-bros-nes-music-star-theme-cut-mp3.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

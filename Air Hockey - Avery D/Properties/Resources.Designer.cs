@@ -77,5 +77,14 @@ namespace Air_Hockey___Avery_D.Properties {
                 return ResourceManager.GetStream("intersection", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream starpower {
+            get {
+                return ResourceManager.GetStream("starpower", resourceCulture);
+            }
+        }
     }
 }

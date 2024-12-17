@@ -33,10 +33,8 @@ namespace Air_Hockey___Avery_D
         int player1Score = 0;
         int player2Score = 0;
 
-        int player1XSpeed = 4;
-        int player1YSpeed = 4;
-        int player2XSpeed = 4;
-        int player2YSpeed = 4;
+        int player1Speed = 4;
+        int player2Speed = 4;
 
         int puckXSpeed = 0;
         int puckYSpeed = 0;
@@ -72,6 +70,7 @@ namespace Air_Hockey___Avery_D
         //sound players
         SoundPlayer collision = new SoundPlayer(Properties.Resources.intersection);
         SoundPlayer gameOver = new SoundPlayer(Properties.Resources.fanfare);
+        SoundPlayer powerUp = new SoundPlayer(Properties.Resources.starpower);
 
         Random random = new Random();
 
@@ -89,37 +88,37 @@ namespace Air_Hockey___Avery_D
             //move player 1 
             if (wPressed == true && player1.Y > 0)
             {
-                player1.Y -= player1YSpeed;
+                player1.Y -= player1Speed;
             }
             if (sPressed == true && player1.Y < 330)
             {
-                player1.Y += player1YSpeed;
+                player1.Y += player1Speed;
             }
             if (aPressed == true && player1.X > 0)
             {
-                player1.X -= player1XSpeed;
+                player1.X -= player1Speed;
             }
             if (dPressed == true && player1.X < this.Width - 52)
             {
-                player1.X += player1XSpeed;
+                player1.X += player1Speed;
             }
 
             //move player 2
             if (upArrowPressed == true && player2.Y > 0)
             {
-                player2.Y -= player2YSpeed;
+                player2.Y -= player2Speed;
             }
             if (downArrowPressed == true && player2.Y < 330)
             {
-                player2.Y += player2YSpeed;
+                player2.Y += player2Speed;
             }
             if (leftArrowPressed == true && player2.X > 0)
             {
-                player2.X -= player2XSpeed;
+                player2.X -= player2Speed;
             }
             if (rightArrowPressed == true && player2.X < this.Width - 52)
             {
-                player2.X += player2XSpeed;
+                player2.X += player2Speed;
             }
 
             //check if ball hit top or bottom, change ball direction if true
@@ -263,6 +262,10 @@ namespace Air_Hockey___Avery_D
                 puck.X = 275;
                 puck.Y = 168;
 
+                //reset player speeds
+                player1Speed = 4;
+                player2Speed = 4;
+
                 //display winner
                 if (player1Score >= 3)
                 {
@@ -286,23 +289,27 @@ namespace Air_Hockey___Avery_D
             //check if player hit yellow blob and speed up player
             if (player1.IntersectsWith(yellowBlob))
             {
-                player1XSpeed += 2;
-                player1YSpeed += 2;
+                powerUp.Play();
+
+                player1Speed = 6;
 
                 yellowBlob.X = -50;
                 yellowBlob.Y = -50;
 
-                speedBoost.Enabled = true;
+                speedBoost1.Enabled = true;
+                speedBoost1.Interval = 4000;
             }
             if (player2.IntersectsWith(yellowBlob))
             {
-                player2XSpeed += 2;
-                player2YSpeed += 2;
+                powerUp.Play();
+
+                player2Speed = 6;
 
                 yellowBlob.X = -50;
                 yellowBlob.Y = -50;
 
-                speedBoost.Enabled = true;
+                speedBoost2.Enabled = true;
+                speedBoost1.Interval = 4000;
             }
 
             //paint screen after all above conditions are checked
@@ -409,6 +416,9 @@ namespace Air_Hockey___Avery_D
             puckXSpeed = 0;
             puckYSpeed = 0;
 
+            player1Speed = 4;
+            player2Speed = 4;
+
             //restart game
             gameTimer.Start();
         }
@@ -424,14 +434,24 @@ namespace Air_Hockey___Avery_D
             yellowBlob.X = xR;
         }
 
-        private void speedBoost_Tick(object sender, EventArgs e)
+        private void speedBoost1_Tick(object sender, EventArgs e)
         {
-            speedBoost.Enabled = false;
+            powerUp.Stop();
 
-            player1XSpeed -= 2;
-            player1YSpeed -= 2;
-            player2XSpeed -= 2;
-            player2YSpeed -= 2;
+            player1Speed = 4;
+           // player2Speed = 4;
+
+            speedBoost1.Enabled = false;
+        }
+
+        private void speedBoost2_Tick(object sender, EventArgs e)
+        {
+            powerUp.Stop();
+
+          //  player1Speed = 4;
+            player2Speed = 4;
+
+            speedBoost1.Enabled = false;
         }
     }
 }

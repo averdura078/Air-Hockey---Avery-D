@@ -124,4 +124,7 @@
   <data name="intersection" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Blop-Mark_DiAngelo-79054334.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="starpower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\super-mario-bros-nes-music-star-theme-cut-mp3.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
