@@ -439,7 +439,6 @@ namespace Air_Hockey___Avery_D
             powerUp.Stop();
 
             player1Speed = 4;
-           // player2Speed = 4;
 
             speedBoost1.Enabled = false;
         }
@@ -448,7 +447,6 @@ namespace Air_Hockey___Avery_D
         {
             powerUp.Stop();
 
-          //  player1Speed = 4;
             player2Speed = 4;
 
             speedBoost1.Enabled = false;
